@@ -16,13 +16,12 @@ const uglify = require('gulp-uglify-es').default;
 const jsFiles = [
   'source/js/getResourse.js',
   'source/js/createElement.js',
-  'source/js/showSearch.js',
   'source/js/showFilter.js',
-  'source/js/basketArr.js',
   'source/js/showBasket.js',
   'source/js/function.js',
   'source/js/app.js',
-  '!source/js/build.min.js'
+  '!source/js/build.min.js',
+  'source/js/formCheckout.js',
 ]
  
 gulp.task('scss', function () {
@@ -69,7 +68,7 @@ gulp.task('js',() => {
     .pipe(uglify())
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('build/js'))
-    .pipe(gulp.dest('source/js'))
+    // .pipe(gulp.dest('source/js'))
 })
 
 gulp.task('watchJs', function () {
