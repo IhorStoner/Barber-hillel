@@ -195,6 +195,7 @@ const handlerReview = (item) => {
   activeLink(`reviews`, `descriptions`);
 
   parent.innerHTML = `
+    <form name="commentForm">
         <div class="popup__comment-container">
             <div class="form-group">
                 <input type="email" class="form-control" id="emailForm" placeholder="Enter your email...">
@@ -204,6 +205,7 @@ const handlerReview = (item) => {
                 <span></span>
             </div>
         </div>
+        </form>
         <div class="appointment-form__btn">
             <button type="submit" class="btn btn--orange" id="btnSend">Отправить</button>
         </div> 
@@ -234,7 +236,8 @@ const handlerPostSend = (parent, item, e) => {
 
   const email = document.getElementById("emailForm");
   const text = document.getElementById(`commentText`);
-
+  const time = moment().format('MMMM Do YYYY, h:mm:ss a');
+  
   if (!commitValid(text, email)) {
     return;
   }
@@ -242,6 +245,7 @@ const handlerPostSend = (parent, item, e) => {
   const data = {};
   data.texts = text.value;
   data.email = email.value;
+  data.time = time; 
   data.productId = item.id;
 
   createElement({
@@ -249,6 +253,7 @@ const handlerPostSend = (parent, item, e) => {
     <div class="container">
         <p>${email.value}</p>
         <p class="lead">${text.value}</p>
+        <p class="lead">${time}</p>
     </div>`,
     parent: parent,
     className: "jumbotron jumbotron-fluid",
@@ -261,6 +266,8 @@ const handlerPostSend = (parent, item, e) => {
     },
     body: JSON.stringify(data),
   });
+
+  document.commentForm.reset();
 
 };
 
@@ -292,3 +299,5 @@ const activeLink = (activeElementId, unActiveElementId) => {
     .getElementById(unActiveElementId)
     .classList.remove(`product-info__link--active`);
 };
+
+
