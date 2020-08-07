@@ -282,6 +282,7 @@ const showComments = (parent, item) => {
         html: `<div class="container">
                 <p>${elem.email}</p>
                 <p class="lead">${elem.texts}</p>
+                <p class="lead">${elem.time}</p>
             </div>`,
         parent: parent,
         className: "jumbotron jumbotron-fluid",
