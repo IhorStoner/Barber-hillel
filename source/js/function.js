@@ -232,40 +232,36 @@ const handlerDescriptions = (item) => {
 const handlerPostSend = (parent, item, e) => {
   e.preventDefault();
 
-  const email = document.getElementById("emailForm").value;
-  const text = document.getElementById(`commentText`).value;
+  const email = document.getElementById("emailForm");
+  const text = document.getElementById(`commentText`);
 
-  // if(!commitValid()){
-  //     return;
-  // }
-
-  if (
-    validateFormElements("emailForm", /^\w+@\w+\.\w+/) &&
-    validateFormElements("commentText", /^\w+@\w+\.\w+/)
-  ) {
-    const data = {};
-    data.texts = text;
-    data.email = email;
-    data.productId = item.id;
-
-    createElement({
-      html: `
-    <div class="container">
-        <p>${email}</p>
-        <p class="lead">${text}</p>
-    </div>`,
-      parent: parent,
-      className: "jumbotron jumbotron-fluid",
-    });
-
-    sendRequest("http://localhost:3000/commit", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+  if (!commitValid(text, email)) {
+    return;
   }
+
+  const data = {};
+  data.texts = text.value;
+  data.email = email.value;
+  data.productId = item.id;
+
+  createElement({
+    html: `
+    <div class="container">
+        <p>${email.value}</p>
+        <p class="lead">${text.value}</p>
+    </div>`,
+    parent: parent,
+    className: "jumbotron jumbotron-fluid",
+  });
+
+  sendRequest("http://localhost:3000/commit", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
 };
 
 const showComments = (parent, item) => {

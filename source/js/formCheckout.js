@@ -228,19 +228,18 @@ const deleteForm = () => {
 
 /////////////Vadim__Oleynik//////////////
 
-const validateFormElements = (elementID, regExp) => {
-  const element = document.getElementById(elementID);
+const validateFormElements = (element, regExp, message) => {
   //check is empty
-  if (checkIfEmpty(element) || checkRegExp(regExp, element)) {
+  if (checkIfEmpty(element) || checkRegExp(regExp, element, message)) {
     return;
   }
   // is if it has only letters
   return true;
 };
 
-const checkRegExp = (regExp, element) => {
+const checkRegExp = (regExp, element, message) => {
   if (isRegExp(regExp, element.value)) {
-    setInvalid(element, "Must be regExp");
+    setInvalid(element, message);
     return true;
   } else {
     setValid(element);
@@ -250,7 +249,7 @@ const checkRegExp = (regExp, element) => {
 
 const checkIfEmpty = (element) => {
   if (isSpace(element.value)) {
-    setInvalid(element, `Must not be empty!`);
+    setInvalid(element, `Поле обязательно для заполнения`);
     return true;
   } else {
     setValid(element);
@@ -267,28 +266,24 @@ const isRegExp = (regExp, value) => {
 };
 
 const setInvalid = (element, message) => {
+  element.style.borderColor = 'red';
   element.nextElementSibling.innerHTML = message;
   element.nextElementSibling.style.color = `#F44336`;
 };
 
 const setValid = (element) => {
+  element.style.borderColor = 'black';
   element.nextElementSibling.innerHTML = ``;
 };
 
-// const commitValid = () =>{
-//     if(!validateFormElements('emailForm', /^\w+@\w+\.\w+/) && validateFormElements('commentText', /^\w+@\w+\.\w+/)){
-//         return;
-//     }else if(!validateFormElements('commentText', /^\w+@\w+\.\w+/)){
-//         return;
-//     }
-//     return true;
-// }
 
-const commitValid = () =>{
-    if(!validateFormElements('emailForm', /^\w+@\w+\.\w+/) && validateFormElements('commentText', /^\w+@\w+\.\w+/)){
-        return;
-    }else if(!validateFormElements('commentText', /^\w+@\w+\.\w+/)){
-        return;
-    }
-    return true;
+const commitValid = (element1, element2) => {
+  const emailRegExp = /^\w+@\w+\.\w+/;
+  const emailMsg = 'Введите коректный адрес электронной почты';
+
+  if (!validateFormElements(element2, emailRegExp, emailMsg) || checkIfEmpty(element1)) {
+    checkIfEmpty(element1)
+    return;
+  }
+  return true;
 }
